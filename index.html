@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="nameInput" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="searchBtn" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="cityName">Dhaka</h1>
+            <h3><span id="weatherTem">38.06</span>&deg;C</h3>
+            <h1 id="weather_status" class="lead">Clouds</h1>
+        </div>
+    </div>
+<script>
+
+    //api
+   // https://api.openweathermap.org/data/2.5/weather?q=Dhaka,1206&appid=d52e9634db15fc860ba5715ea6c0dfbe
+    const key = 'd52e9634db15fc860ba5715ea6c0dfbe';
+   const api = 'https://api.openweathermap.org/data/2.5/weather?q=';
+
+
+   function apiKey(city){
+       const url = `${api}${city}&appid=${key}`;
+       console.log(url)
+       fetch(url)
+       .then(response => response.json())
+       .then(json => updateUI(json))
+   }
+    
+document.getElementById("searchBtn").addEventListener('click',function(){
+    const placeName = document.getElementById('nameInput').value;
+    apiKey(placeName);
+})
+function updateUI(json) {
+    document.getElementById("cityName").innerText = json.name || "unknown Location"
+    document.getElementById('weatherTem').innerText = json.main.temp;
+    document.getElementById('weather_status').innerText = json.weather[0].main;
+    document.getElementById('nameInput').value = "";
+}
+apiKey('Dhaka')
+</script>
+</body>
+
+</html>
